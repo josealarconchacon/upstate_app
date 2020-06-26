@@ -1,21 +1,20 @@
 //
-//  LoginViewController.swift
-//  upstate_app
+//  RegisterViewController.swift
+//  
 //
-//  Created by Jose Alarcon Chacon on 6/23/20.
-//  Copyright © 2020 Jose Alarcon Chacon. All rights reserved.
+//  Created by Jose Alarcon Chacon on 6/25/20.
 //
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class RegisterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-            
+    
 
     /*
     // MARK: - Navigation
