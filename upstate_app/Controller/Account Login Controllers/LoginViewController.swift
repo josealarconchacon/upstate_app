@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
 
@@ -18,7 +19,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-       uthservice.authserviceExistingAccountDelegate = self
+       authservice.authserviceExistingAccountDelegate = self
     }
     
 
@@ -36,12 +37,12 @@ extension LoginViewController: AuthServiceExistingAccountDelegate {
 //    showAlert(title: "Signin Error", message: error.localizedDescription)
     print(error.localizedDescription)
   }
-  
-  func didSignInToExistingAccount(_ authservice: AuthService, user: User) {
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    let mainTabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarController") as! TabBarController
-    mainTabBarController.modalTransitionStyle = .crossDissolve
-    mainTabBarController.modalPresentationStyle = .overFullScreen
-    present(mainTabBarController, animated: true)
-  }
+    
+    func didSignInToExistingAccount(_ authservice: AuthService, user: User) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let mainTabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarController") as! TabBarController
+        mainTabBarController.modalTransitionStyle = .crossDissolve
+        mainTabBarController.modalPresentationStyle = .overFullScreen
+        present(mainTabBarController, animated: true)
+    }
 }
