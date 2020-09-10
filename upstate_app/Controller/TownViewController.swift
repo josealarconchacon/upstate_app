@@ -7,35 +7,60 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseFirestore
+
 
 class TownViewController: UIViewController {
     
-    var tableView = UITableView()
+    @IBOutlet weak var tableView: UITableView!
+    
+    var dataB: Firestore!
+    
+    var towns = [Town]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableViewCell()
-    }
-    
-    func tableViewCell() {
-        view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 200
-        tableView.tableFooterView = UIView()
-        tableView.register(TownTableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.viewConstraint(to: view)
+        dataB = Firestore.firestore()
+        fetch_twons()
+    }
+    
+    func fetch_twons() {
+        Service.firestoreDB.collection(TownCollectionKey.CollectionKey).addSnapshotListener { (query, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let query = query {
+                var town = [Town]()
+                for document in query.documents {
+                    let town_info = Town(dict: document.data())
+                    town.append(town_info)
+                }
+                self.towns = town
+                print("List of Towns: \(self.towns)")
+            }
+        }
     }
 }
 
 extension TownViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return towns.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TownTableViewCell
-        cell.town_label_name.text = "fafafasa"
         return cell
     }
 }
